@@ -1,0 +1,43 @@
+basePath: /api/v1/
+definitions:
+  handler.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      message:
+        type: string
+    type: object
+host: '{{.Host}}'
+info:
+  contact: {}
+  description: 进销存项目的API文档
+  license: {}
+  title: 进销存API
+  version: 0.0.1
+paths:
+  /purchases:
+    get:
+      consumes:
+      - application/json
+      description: 列出 所有的销售记录
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Response'
+            type: object
+      security:
+      - JWT: []
+      summary: 获取 销售记录
+      tags:
+      - 销售
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

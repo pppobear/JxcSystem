@@ -1,0 +1,66 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "进销存项目的API文档",
+        "title": "进销存API",
+        "contact": {},
+        "license": {},
+        "version": "0.0.1"
+    },
+    "host": "{{.Host}}",
+    "basePath": "/api/v1/",
+    "paths": {
+        "/purchases": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "列出 所有的销售记录",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "销售"
+                ],
+                "summary": "获取 销售记录",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/handler.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "object"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "JWT": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
