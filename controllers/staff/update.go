@@ -11,10 +11,10 @@ import (
 )
 
 type UpdateStaffRequest struct {
-	Name     string           `json:"name"`
-	Gender   string           `json:"gender" validate:"max=2"`
-	Birthday handler.JsonDate `json:"birthday"`
-	Married  uint8            `json:"married"  validate:"max=1"`
+	Name     *string           `json:"name"`
+	Gender   *string           `json:"gender" validate:"max=2"`
+	Birthday *handler.JsonDate `json:"birthday"`
+	Married  *bool             `json:"married"  validate:"max=1"`
 }
 
 func (r *UpdateStaffRequest) Validate() error {
@@ -56,8 +56,7 @@ func UpdateStaff(c *gin.Context) {
 	}
 
 	staff := models.StaffModel{
-		Id:   id,
-		Name: r.Name,
+		Id: id,
 	}
 
 	if err := staff.Update(); err != nil {

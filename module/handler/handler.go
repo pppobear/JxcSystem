@@ -19,12 +19,12 @@ type JsonDate struct {
 }
 
 func (d *JsonDate) MarshalJSON() ([]byte, error) {
-	return []byte(fmt.Sprintf("\"%s\"", time.Time(d.Time).Format("2006-01-02"))), nil
+	return []byte(fmt.Sprintf("\"%s\"", time.Time(d.Time).Format("2006-01-02 15:04:05"))), nil
 }
 
 func (d *JsonDate) UnmarshalJSON(data []byte) error {
 	var err error
-	d.Time, err = time.Parse(`"2006-01-02"`, string(data))
+	d.Time, err = time.Parse(`"2006-01-02 15:04:05"`, string(data))
 	if err != nil {
 		return err
 	}
@@ -36,7 +36,7 @@ func (d JsonDate) Value() (driver.Value, error) {
 	if d.Time.UnixNano() == zeroTime.UnixNano() {
 		return nil, nil
 	}
-	return d.Time, nil
+	return d.String(), nil
 }
 
 func (d *JsonDate) Scan(v interface{}) error {
@@ -49,7 +49,7 @@ func (d *JsonDate) Scan(v interface{}) error {
 }
 
 func (d JsonDate) String() string {
-	return time.Time(d.Time).Format("2006-01-02")
+	return time.Time(d.Time).Format("2006-01-02 15:04:05")
 }
 
 type Response struct {

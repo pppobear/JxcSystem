@@ -38,9 +38,9 @@ var devEnv = Env{
 
 	ServerPort:       "4000",
 	DatabaseIP:       "127.0.0.1",
-	DatabasePort:     "1433",
-	DatabaseUsername: "SA",
-	DatabasePassword: "Password*",
+	DatabasePort:     "3306",
+	DatabaseUsername: "root",
+	DatabasePassword: "123456",
 	DatabaseName:     "Jxc",
 
 	RedisIP:       "127.0.0.1",

@@ -9,8 +9,8 @@ import (
 func SetGroup(rootGroup *gin.RouterGroup) {
 	staffGroup := rootGroup.Group("/staff")
 	{
-		staffGroup.GET("", ListStaff).Use(auth.Middleware("jwt"))
 		staffGroup.POST("", CreateStaff)
+		staffGroup.GET("", ListStaff).Use(auth.Middleware("jwt"))
 		staffGroup.GET("/:id", RetrieveStaff).Use(auth.Middleware("jwt"))
 		staffGroup.PUT("/:id", UpdateStaff).Use(auth.Middleware("jwt"))
 		staffGroup.DELETE("/:id", DeleteStaff).Use(auth.Middleware("jwt"))

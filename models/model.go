@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mssql"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/lexkong/log"
 
 	"pppobear.cn/jxc-backend/module/handler"
@@ -22,8 +22,8 @@ func init() {
 	var err error
 	dbConfig := config.GetEnv()
 	Model, err = gorm.Open(
-		"mssql",
-		fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s",
+		"mysql",
+		fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 			dbConfig.DatabaseUsername,
 			dbConfig.DatabasePassword,
 			dbConfig.DatabaseIP,

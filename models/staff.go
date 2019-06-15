@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"strconv"
 	"time"
 
@@ -28,13 +29,13 @@ var (
 )
 
 type StaffFilterRequest struct {
-	Gender       string `form:"gender"`
-	SpecialtyId  uint64 `form:"specialty_id"`
-	DepartmentId uint64 `form:"department_id"`
-	Married      string `form:"married"`
-	Permission   string `form:"permission"`
-	StartDate    string `form:"start_date"`
-	EndDate      string `form:"end_date"`
+	Gender       string       `form:"gender"`
+	SpecialtyId  uint64       `form:"specialty_id"`
+	DepartmentId uint64       `form:"department_id"`
+	Married      sql.NullBool `form:"married"`
+	Permission   string       `form:"permission"`
+	StartDate    string       `form:"start_date"`
+	EndDate      string       `form:"end_date"`
 }
 
 func (sfr *StaffFilterRequest) Filter(sql *gorm.DB) {
@@ -47,8 +48,8 @@ func (sfr *StaffFilterRequest) Filter(sql *gorm.DB) {
 	if sfr.DepartmentId != 0 {
 		*sql = *sql.Where("department_id = ?", sfr.DepartmentId)
 	}
-	if sfr.Married != "" {
-		*sql = *sql.Where("married = ?", sfr.Married)
+	if sfr.Married.Valid {
+		*sql = *sql.Where("married = ?", sfr.Married.Bool)
 	}
 	if sfr.Permission != "" {
 		*sql = *sql.Where("permission = ?", sfr.Permission)
@@ -105,7 +106,7 @@ type StaffModel struct {
 	SpecialtyId  uint64           `json:"-"`
 	Department   DepartmentModel  `json:"department"`
 	DepartmentId uint64           `json:"-"`
-	Married      bool             `json:"married"`
+	Married      sql.NullBool     `json:"married"`
 	Permission   uint             `json:"permission"`
 }
 

@@ -1,6 +1,8 @@
 package staff
 
 import (
+	"database/sql"
+
 	"github.com/gin-gonic/gin"
 	"github.com/segmentio/ksuid"
 
@@ -10,12 +12,12 @@ import (
 )
 
 type CreateStaffRequest struct {
-	Name         string           `json:"name" binding:"required" validate:"min=1,max=8"`
-	Gender       string           `json:"gender" validate:"max=2"`
-	Birthday     handler.JsonDate `json:"birthday"`
-	SpecialtyId  uint64           `json:"specialty_id"`
-	DepartmentId uint64           `json:"department_id"`
-	Married      bool             `json:"married" validate:"max=1"`
+	Name         *string           `json:"name" binding:"required" validate:"min=1,max=8"`
+	Gender       *string           `json:"gender" validate:"max=2"`
+	Birthday     *handler.JsonDate `json:"birthday"`
+	SpecialtyId  *uint64           `json:"specialty_id"`
+	DepartmentId *uint64           `json:"department_id"`
+	Married      *bool             `json:"married"`
 }
 
 func (r *CreateStaffRequest) Validate() error {
@@ -54,12 +56,14 @@ func CreateStaff(c *gin.Context) {
 
 	staff := models.StaffModel{
 		Id:           ksuid.New().String(),
-		Name:         r.Name,
-		Gender:       r.Gender,
-		Birthday:     r.Birthday,
-		SpecialtyId:  r.SpecialtyId,
-		DepartmentId: r.DepartmentId,
-		Married:      r.Married,
+		Name:         *r.Name,
+		Gender:       *r.Gender,
+		Birthday:     *r.Birthday,
+		SpecialtyId:  *r.SpecialtyId,
+		DepartmentId: *r.DepartmentId,
+	}
+	if r.Married != nil {
+		staff.Married = sql.NullBool{Bool: *r.Married, Valid: true}
 	}
 
 	if err := staff.Create(); err != nil {
